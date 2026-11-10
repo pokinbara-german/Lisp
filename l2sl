@@ -1,0 +1,60 @@
+;Parses text into lists of words.
+
+(defun l2lofl (lambda (x)
+         (cond ((null x) nil)               
+               ((equal | | (car x)) (list (l2lofl (cdr x))) )
+               (t (cons (car x) (l2lofl (cdr x))) )
+         )
+))
+
+(defun Main1 (lambda (lst)
+        (cond ((null lst) nil)
+              ((null (cdr lst)) lst)
+              ((eq | | (car lst)) (main1 (cdr lst)) )
+              (t  (spec (reverse (l2lofl (no2space lst)))) )
+        )
+))
+                                          
+;Flattens nested lists into a list of words.
+(defun spec (lambda (lst)
+         (cond ((null lst) nil)
+               ((atom (car lst)) (list (pack (reverse lst))) )
+               (t (cons (pack (reverse (cdr lst))) (spec (reverse (car lst)))) )
+         )
+))
+
+;Removes duplicate spaces and trailing spaces.
+(defun no2space (lambda (lst)
+         (cond ((null (cdr lst)) (cond ((not (equal | | (car lst))) (list (car lst)))
+                                       (t '()) ) )
+               ((and (equal (car lst) (cadr lst)) 
+                     (equal | | (car lst)) ) (no2space (cdr lst)))
+               (t (cons (car lst) (no2space (cdr lst))) )
+         )
+))
+
+(defun main (lambda (x)
+         (main1 (unpack x))
+))
+
+
+;(no2space (unpack "  hdf  jh guk   gk   "))
+;(unpack "  hdf  jh guk   gk   ")
+
+;Примеры
+   (EQUAL (main " 1") '(\1))
+   (EQUAL (main "1 ") '(\1))
+   (EQUAL (main " 1 ") '(\1))
+   (EQUAL (main "  1 2 3 4 5 6") '(\1 \2 \3 \4 \5 \6))
+   (EQUAL (main "    1 2 3 4 5") '(\1 \2 \3 \4 \5))
+   (EQUAL (main "1 2 3 4 5 6 ") '(\1 \2 \3 \4 \5 \6))
+   (EQUAL (main "1 2 3 4 5   ") '(\1 \2 \3 \4 \5))
+   (EQUAL (main " 1 2 3 4 5 6 ") '(\1 \2 \3 \4 \5 \6))
+   (EQUAL (main "   1 2 3 4   ") '(\1 \2 \3 \4))
+   (EQUAL (main "1 2 3 4 5 6") '(\1 \2 \3 \4 \5 \6))
+   (EQUAL (main "asd w qweq 456") '(|asd| |w| |qweq| |456|))
+   (EQUAL (main " 1  2   3    4    5   6  7 ")
+          '(\1 \2 \3 \4 \5 \6 \7))
+   (EQUAL (main " 1 2    3    4 5 6   ") '(\1 \2 \3 \4 \5 \6))
+
+(rds)
