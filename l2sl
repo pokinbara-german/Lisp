@@ -37,11 +37,11 @@
          (main1 (unpack x))
 ))
 
-
+;Debug
 ;(no2space (unpack "  hdf  jh guk   gk   "))
 ;(unpack "  hdf  jh guk   gk   ")
 
-;Примеры
+;Tests
    (EQUAL (main " 1") '(\1))
    (EQUAL (main "1 ") '(\1))
    (EQUAL (main " 1 ") '(\1))
